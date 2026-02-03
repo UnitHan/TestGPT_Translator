@@ -1,0 +1,109 @@
+{
+  "name": "testcase-translator",
+  "version": "1.0.0",
+  "description": "AI 기반 테스트 케이스 번역 도구",
+  "main": "electron/main.js",
+  "scripts": {
+    "start": "electron .",
+    "build-server": "build_complete.bat",
+    "build-server-mac": "cd macos && bash build_python.sh && cd ..",
+    "dist": "npm run build-server && node create-standalone-installer.js",
+    "dist-zip": "npm run dist && node create-zip-installer.js",
+    "dist-nsis": "npm run build-server && electron-builder --win --x64",
+    "dist-electron": "npm run build-server && electron-builder --win --x64",
+    "dist-electron-mac": "npm run build-server-mac && electron-builder --mac",
+    "test": "python test_imports.py"
+  },
+  "build": {
+    "appId": "com.qabulls.testcase.translator",
+    "productName": "TestGPT TC Translator",
+    "copyright": "Copyright © 2026 QA Bulls",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "icon_256x256.png"
+    },
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": ["x64", "arm64"]
+        }
+      ],
+      "icon": "icon.icns",
+      "category": "public.app-category.developer-tools",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.plist"
+    },
+    "dmg": {
+      "title": "TestGPT TC Translator",
+      "icon": "icon.icns",
+      "background": "build/dmg-background.png",
+      "contents": [
+        {
+          "x": 130,
+          "y": 220
+        },
+        {
+          "x": 410,
+          "y": 220,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "TestGPT TC Translator",
+      "deleteAppDataOnUninstall": true
+    },
+    "files": [
+      "electron/**/*",
+      "icon.ico",
+      "icon_256x256.png",
+      "package.json",
+      "!venv/**/*",
+      "!venv-mac/**/*",
+      "!macos/**/*",
+      "!uploads/**/*",
+      "!outputs/**/*",
+      "!dist/**/*",
+      "!build/**/*",
+      "!templates/**/*",
+      "!app.py",
+      "!*.spec",
+      "!*.bat",
+      "!*.sh"
+    ],
+    "extraResources": [
+      {
+        "from": "dist/translation-server",
+        "to": "translation-server",
+        "filter": ["**/*"]
+      }
+    ]
+  },
+  "keywords": ["testcase", "translation", "ai", "qa"],
+  "author": "QA Bulls",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^28.1.0",
+    "electron-builder": "^24.9.1"
+  },
+  "dependencies": {
+    "electron-store": "^8.1.0"
+  }
+}

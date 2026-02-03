@@ -1,0 +1,102 @@
+{
+  "name": "testcase-translator",
+  "version": "1.0.0",
+  "description": "AI 기반 테스트 케이스 번역 도구",
+  "main": "electron/main.js",
+  "scripts": {
+    "start": "electron .",
+    "build-python": "build_python.bat",
+    "build-python-mac": "cd macos && bash build_python.sh && cd ..",
+    "build": "electron-builder",
+    "dist": "npm run build-python && electron-builder --win --x64",
+    "dist-mac": "npm run build-python-mac && electron-builder --mac"
+  },
+  "build": {
+    "appId": "com.qabulls.testcase.translator",
+    "productName": "TestGPT TC Translator",
+    "copyright": "Copyright © 2026 QA Bulls",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "icon.ico"
+    },
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": ["x64", "arm64"]
+        }
+      ],
+      "icon": "icon.icns",
+      "category": "public.app-category.developer-tools",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.plist"
+    },
+    "dmg": {
+      "title": "TestGPT TC Translator",
+      "icon": "icon.icns",
+      "background": "build/dmg-background.png",
+      "contents": [
+        {
+          "x": 130,
+          "y": 220
+        },
+        {
+          "x": 410,
+          "y": 220,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "TestGPT TC Translator"
+    },
+    "files": [
+      "electron/**/*",
+      "templates/**/*",
+      "icon.ico",
+      "icon.png",
+      "package.json",
+      "!venv/**/*",
+      "!uploads/**/*",
+      "!outputs/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "dist/translation-server.exe",
+        "to": "translation-server.exe",
+        "filter": ["**/*"]
+      },
+      {
+        "from": "macos/dist/translation-server",
+        "to": "translation-server",
+        "filter": ["**/*"]
+      }
+    ]
+  },
+  "keywords": ["testcase", "translation", "ai", "qa"],
+  "author": "QA Bulls",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^28.1.0",
+    "electron-builder": "^24.9.1"
+  },
+  "dependencies": {
+    "electron-store": "^8.1.0"
+  }
+}

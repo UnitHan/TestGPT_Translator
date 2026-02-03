@@ -1,0 +1,68 @@
+# .gitignore
+
+# Python
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Electron
+dist/
+out/
+
+# PyInstaller
+build/
+*.spec
+
+# 업로드/출력 파일
+uploads/*.xlsx
+uploads/*.xls
+outputs/*.xlsx
+outputs/*.xls
+!uploads/.gitkeep
+!outputs/.gitkeep
+
+# 샘플 파일 제외 (커밋에 포함)
+!한국어 테스트케이스.xlsx
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 로그
+*.log
+
+# 환경변수
+.env
